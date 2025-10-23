@@ -1,47 +1,50 @@
-﻿using Alexandria.Models;
-using Alexandria.Repositories;
+﻿using AlexandriaEF.Contracts;
+using AlexandriaEF.Models;
+using AlexandriaEF.Repositories;
+using AlexandriaEF.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Alexandria.Controllers
+namespace AlexandriaEF.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class BooksController : ControllerBase
     {
         private readonly BooksRepository _repository;
-        public BooksController(BooksRepository booksRepository)
+        private readonly BookService _service;
+        public BooksController(BookService bookService)
         {
-            _repository = booksRepository;
+            _service = bookService;
         }
 
         [HttpPost("AddBook")]
-        public async Task<string> AddBookAsync(string title, DateTime publishDate, Guid authorId)
+        public async Task<ActionResult> AddBookAsync([FromBody] AddBookRequest request)
         {
-            return await _repository.AddBookAsync(title, publishDate, authorId);
+            return Ok(await _service.AddBookAsync(request));
         }
 
         [HttpGet("GetBooks")]
-        public async Task<List<Book>> GetBooksAsync()
+        public async Task<List<BookResponse>> GetBooksAsync()
         {
-            return await _repository.GetBooks();
+            return await _service.GetBooksAsync();
         }
 
         [HttpGet("GetBook")]
-        public async Task<Book> GetBookByIdAsync(Guid id)
+        public async Task<BookResponse> GetBookByIdAsync([FromQuery] BookByTitleRequest bookByTitleRequest)
         {
-            return await _repository.GetBookByIdAsync(id);
+            return await _service.GetBookByTitleAsync(bookByTitleRequest);
         }
 
         [HttpPut("UpdateBook")]
-        public async Task<string> UpdateBookByIdAsync(Guid id, string newTitle, DateTime newPublishDate)
+        public async Task<ActionResult> UpdateBookByIdAsync([FromBody] UpdateBookRequest updateBookRequest)
         {
-            return await _repository.UpdateBookByIdAsync(id, newTitle, newPublishDate);
+            return Ok(await _service.UpdateBookByIdAsync(updateBookRequest));
         }
 
         [HttpDelete("DeleteBook")]
-        public async Task<string> DeleteBookByIdAsync(Guid id)
+        public async Task<ActionResult> DeleteBookByIdAsync([FromBody] BookByTitleRequest bookByTitleRequest)
         {
-            return await _repository.DeleteBookByIdAsync(id);
+            return Ok(await _service.DeleteBookByIdAsync(bookByTitleRequest));
         }
     }
 }

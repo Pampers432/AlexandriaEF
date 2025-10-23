@@ -1,9 +1,9 @@
-
-using Alexandria.Data;
-using Alexandria.Repositories;
+using AlexandriaEF.Data;
+using AlexandriaEF.Repositories;
+using AlexandriaEF.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Alexandria
+namespace AlexandriaEF
 {
     public class Program
     {
@@ -14,6 +14,7 @@ namespace Alexandria
             builder.Services.AddControllers();
             builder.Services.AddScoped<AuthorsRepository>();
             builder.Services.AddScoped<BooksRepository>();
+            builder.Services.AddScoped<BookService>();
             builder.Services.AddDbContext<AlexandriaDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

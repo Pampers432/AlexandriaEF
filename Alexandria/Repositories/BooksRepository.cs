@@ -1,8 +1,8 @@
-﻿using Alexandria.Data;
-using Alexandria.Models;
+﻿using AlexandriaEF.Data;
+using AlexandriaEF.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Alexandria.Repositories
+namespace AlexandriaEF.Repositories
 {
     public class BooksRepository
     {
@@ -13,54 +13,39 @@ namespace Alexandria.Repositories
             _db = db;
         }
 
-        public async Task<List<Book>> GetBooks()
+        public async Task<List<Book>> GetBooksAsync()
         {
             return await _db.Books.ToListAsync();
         }
 
-        public async Task<Book> GetBookByIdAsync(Guid id)
+        public async Task<Book?> GetBookByIdAsync(Guid id)
         {
-            var book = await _db.Books.FirstOrDefaultAsync(b => b.Id == id);
-
-            if (book == null) throw new ArgumentNullException("Такой книги нет");
-
-            return book;
+            return await _db.Books.FirstOrDefaultAsync(b => b.Id == id); ;
         }
 
-        public async Task<string> AddBookAsync(string title, DateTime publishDate, Guid authorId)
+        public async Task<Book?> GetBookByTitleAsync(string title)
         {
-            var authorExists = await _db.Authors.AnyAsync(a => a.Id == authorId);
+            return await _db.Books.FirstOrDefaultAsync(b => b.Title == title);
+        }
 
-            if (!authorExists) throw new ArgumentException("Автор с таким ID не найден");
-
-            var newBook = Book.CreateBook(title, publishDate, authorId);
-
-            await _db.Books.AddAsync(newBook);
+        public async Task<string> AddBookAsync(Book book)
+        {
+            await _db.Books.AddAsync(book);
             await _db.SaveChangesAsync();
 
             return "Успех";
         }
 
-        public async Task<string> UpdateBookByIdAsync(Guid id, string newTitle, DateTime newPublishDate)
+        public async Task<string> UpdateBookByIdAsync(Book book)
         {
-            var book = await _db.Books.FirstOrDefaultAsync(b => b.Id == id);
-
-            if (book == null) throw new ArgumentNullException("Такой книги нет");
-
-            book.Title = newTitle;
-            book.PublishedYear = newPublishDate;
-
+            _db.Books.Update(book);
             await _db.SaveChangesAsync();
 
             return "Успех";
         }
 
-        public async Task<string> DeleteBookByIdAsync(Guid id)
+        public async Task<string> DeleteBookByIdAsync(Book book)
         {
-            var book = await _db.Books.FirstOrDefaultAsync(b => b.Id == id);
-
-            if (book == null) throw new ArgumentNullException("Такой книги нет");
-
             _db.Books.Remove(book);
             await _db.SaveChangesAsync();
 

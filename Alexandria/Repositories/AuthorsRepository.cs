@@ -1,8 +1,8 @@
-﻿using Alexandria.Data;
-using Alexandria.Models;
+﻿using AlexandriaEF.Data;
+using AlexandriaEF.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Alexandria.Repositories
+namespace AlexandriaEF.Repositories
 {
     public class AuthorsRepository
     {

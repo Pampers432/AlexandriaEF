@@ -1,7 +1,7 @@
-﻿using Alexandria.Models;
+﻿using AlexandriaEF.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Alexandria.Data
+namespace AlexandriaEF.Data
 {
     public class AlexandriaDbContext : Microsoft.EntityFrameworkCore.DbContext
     {

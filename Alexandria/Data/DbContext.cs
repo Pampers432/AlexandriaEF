@@ -1,6 +1,6 @@
-﻿using Alexandria.Models;
+﻿using AlexandriaEF.Models;
 
-namespace Alexandria.Data
+namespace AlexandriaEF.Data
 {
     public class DbContext
     {

@@ -1,8 +1,8 @@
-﻿using Alexandria.Models;
-using Alexandria.Repositories;
+﻿using AlexandriaEF.Models;
+using AlexandriaEF.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Alexandria.Controllers
+namespace AlexandriaEF.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -15,9 +15,9 @@ namespace Alexandria.Controllers
         }
 
         [HttpPost("AddAuthor")] 
-        public async Task<string> AddAuthorAsync(string name, DateTime dateOfBirth)
+        public async Task<ActionResult> AddAuthorAsync(string name, DateTime dateOfBirth)
         {            
-            return await _repository.AddAuthorAsync(name, dateOfBirth);
+            return Ok(await _repository.AddAuthorAsync(name, dateOfBirth));
         } 
 
         [HttpGet("GetAuthors")]
@@ -33,15 +33,15 @@ namespace Alexandria.Controllers
         } 
 
         [HttpPut("UpdateAuthor")]
-        public async Task<string> UpdateAuthorByIdAsync(Guid id, string newName, DateTime newDateOfBirth)
+        public async Task<ActionResult> UpdateAuthorByIdAsync(Guid id, string newName, DateTime newDateOfBirth)
         {            
-            return await _repository.UpdateAuthorByIdAsync(id, newName, newDateOfBirth);
+            return Ok(await _repository.UpdateAuthorByIdAsync(id, newName, newDateOfBirth));
         }
 
         [HttpDelete("DeleteAuthor")]
-        public async Task<string> DeleteAuthorByIdAsync(Guid id)
+        public async Task<ActionResult> DeleteAuthorByIdAsync(Guid id)
         {            
-            return await _repository.DeleteAuthorByIdAsync(id);
+            return Ok(await _repository.DeleteAuthorByIdAsync(id));
         }
     }
 }

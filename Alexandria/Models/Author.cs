@@ -1,4 +1,4 @@
-﻿namespace Alexandria.Models
+﻿namespace AlexandriaEF.Models
 {
     public class Author
     {

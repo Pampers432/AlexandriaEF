@@ -1,5 +1,6 @@
 ﻿using AlexandriaEF.Models;
 using AlexandriaEF.Repositories;
+using AlexandriaEF.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlexandriaEF.Controllers
@@ -9,39 +10,41 @@ namespace AlexandriaEF.Controllers
     public class AuthorsController : ControllerBase
     {
         private readonly AuthorsRepository _repository;
-        public AuthorsController(AuthorsRepository authorsRepository)
+        private readonly AuthorService _service;
+        public AuthorsController(AuthorsRepository authorsRepository, AuthorService service)
         {
             _repository = authorsRepository;
+            _service = service;
         }
 
         [HttpPost("AddAuthor")] 
         public async Task<ActionResult> AddAuthorAsync(string name, DateTime dateOfBirth)
         {            
-            return Ok(await _repository.AddAuthorAsync(name, dateOfBirth));
+            return Ok(await _service.AddAuthorAsync(name, dateOfBirth));
         } 
 
         [HttpGet("GetAuthors")]
         public async Task<List<Author>> GetAuthorsAsync()
         {
-            return await _repository.GetAuthors();
+            return await _service.GetAuthors();
         }
 
         [HttpGet("GetAuthor")]
         public async Task<Author> GetAuthorByIdAsync(Guid id)
         {
-            return await _repository.GetAuthorByIdAsync(id);
+            return await _service.GetAuthorByIdAsync(id);
         } 
 
         [HttpPut("UpdateAuthor")]
         public async Task<ActionResult> UpdateAuthorByIdAsync(Guid id, string newName, DateTime newDateOfBirth)
         {            
-            return Ok(await _repository.UpdateAuthorByIdAsync(id, newName, newDateOfBirth));
+            return Ok(await _service.UpdateAuthorByIdAsync(id, newName, newDateOfBirth));
         }
 
         [HttpDelete("DeleteAuthor")]
         public async Task<ActionResult> DeleteAuthorByIdAsync(Guid id)
         {            
-            return Ok(await _repository.DeleteAuthorByIdAsync(id));
+            return Ok(await _service.DeleteAuthorByIdAsync(id));
         }
     }
 }

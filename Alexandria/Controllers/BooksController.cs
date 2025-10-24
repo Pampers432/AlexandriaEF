@@ -10,7 +10,6 @@ namespace AlexandriaEF.Controllers
     [Route("[controller]")]
     public class BooksController : ControllerBase
     {
-        private readonly BooksRepository _repository;
         private readonly BookService _service;
         public BooksController(BookService bookService)
         {
@@ -30,7 +29,7 @@ namespace AlexandriaEF.Controllers
         }
 
         [HttpGet("GetBook")]
-        public async Task<BookResponse> GetBookByIdAsync([FromQuery] BookByTitleRequest bookByTitleRequest)
+        public async Task<BookResponse> GetBookByTitleAsync([FromQuery] BookByTitleRequest bookByTitleRequest)
         {
             return await _service.GetBookByTitleAsync(bookByTitleRequest);
         }
@@ -42,7 +41,7 @@ namespace AlexandriaEF.Controllers
         }
 
         [HttpDelete("DeleteBook")]
-        public async Task<ActionResult> DeleteBookByIdAsync([FromBody] BookByTitleRequest bookByTitleRequest)
+        public async Task<ActionResult> DeleteBookByTitleAsync([FromBody] BookByTitleRequest bookByTitleRequest)
         {
             return Ok(await _service.DeleteBookByIdAsync(bookByTitleRequest));
         }

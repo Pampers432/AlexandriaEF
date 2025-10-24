@@ -15,6 +15,7 @@ namespace AlexandriaEF
             builder.Services.AddScoped<AuthorsRepository>();
             builder.Services.AddScoped<BooksRepository>();
             builder.Services.AddScoped<BookService>();
+            builder.Services.AddScoped<AuthorService>();
             builder.Services.AddDbContext<AlexandriaDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

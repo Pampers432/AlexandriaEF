@@ -15,12 +15,12 @@ namespace AlexandriaEF.Repositories
 
         public async Task<List<Book>> GetBooksAsync()
         {
-            return await _db.Books.ToListAsync();
+            return await _db.Books.Include(b => b.Author).ToListAsync();
         }
 
         public async Task<Book?> GetBookByIdAsync(Guid id)
         {
-            return await _db.Books.FirstOrDefaultAsync(b => b.Id == id); ;
+            return await _db.Books.Include(b => b.Author).FirstOrDefaultAsync(b => b.Id == id); ;
         }
 
         public async Task<Book?> GetBookByTitleAsync(string title)

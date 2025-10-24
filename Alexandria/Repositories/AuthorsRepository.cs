@@ -14,13 +14,13 @@ namespace AlexandriaEF.Repositories
         }
 
         public async Task<List<Author>> GetAuthors()
-        {
-            return await _db.Authors.ToListAsync();
+        {            
+            return await _db.Authors.Include(a => a.Books).ToListAsync();
         }
 
         public async Task<Author?> GetAuthorByIdAsync(Guid id)
         {
-            return await _db.Authors.FirstOrDefaultAsync(a => a.Id == id);
+            return await _db.Authors.Include(a => a.Books).FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<string> AddAuthorAsync(Author newAuthor)

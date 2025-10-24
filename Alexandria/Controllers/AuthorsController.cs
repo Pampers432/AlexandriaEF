@@ -1,4 +1,5 @@
-﻿using AlexandriaEF.Models;
+﻿using AlexandriaEF.Contracts;
+using AlexandriaEF.Models;
 using AlexandriaEF.Repositories;
 using AlexandriaEF.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -24,13 +25,13 @@ namespace AlexandriaEF.Controllers
         } 
 
         [HttpGet("GetAuthors")]
-        public async Task<List<Author>> GetAuthorsAsync()
+        public async Task<List<AuthorResponse>> GetAuthorsAsync()
         {
             return await _service.GetAuthors();
         }
 
         [HttpGet("GetAuthor")]
-        public async Task<Author> GetAuthorByIdAsync(Guid id)
+        public async Task<AuthorResponse> GetAuthorByIdAsync(Guid id)
         {
             return await _service.GetAuthorByIdAsync(id);
         } 

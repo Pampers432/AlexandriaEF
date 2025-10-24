@@ -1,4 +1,5 @@
-﻿using AlexandriaEF.Data;
+﻿using AlexandriaEF.Contracts;
+using AlexandriaEF.Data;
 using AlexandriaEF.Models;
 using AlexandriaEF.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -16,18 +17,27 @@ namespace AlexandriaEF.Services
             _repository = authorsRepository;
         }
 
-        public async Task<List<Author>> GetAuthors()
+        public async Task<List<AuthorResponse>> GetAuthors()
         {
-            return await _repository.GetAuthors();
+            var authors = await _repository.GetAuthors();
+
+            return authors.Select(a => new AuthorResponse(
+                a.Name,
+                a.DateOfBirth,
+                a.Books.Select(b => b.Title).ToList()))
+                .ToList();
         }
 
-        public async Task<Author> GetAuthorByIdAsync(Guid id)
+        public async Task<AuthorResponse> GetAuthorByIdAsync(Guid id)
         {
             var author = await _repository.GetAuthorByIdAsync(id);
 
             if (author == null) throw new ArgumentNullException("Такого автора нет");
 
-            return author;
+            return new AuthorResponse(
+                author.Name,
+                author.DateOfBirth,
+                author.Books.Select(b => b.Title).ToList());
         }
 
         public async Task<string> AddAuthorAsync(string name, DateTime dateOfBirth)

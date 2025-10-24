@@ -10,26 +10,20 @@ namespace AlexandriaEF.Services
     {
         private readonly AlexandriaDbContext _db;
         private readonly BooksRepository _repository;
-        private readonly AuthorsRepository _authorsRepository;
 
-        public BookService(AlexandriaDbContext db, BooksRepository booksRepository, AuthorsRepository authorsRepository)
+        public BookService(AlexandriaDbContext db, BooksRepository booksRepository)
         {
             _db = db;
             _repository = booksRepository;
-            _authorsRepository = authorsRepository;
         }
 
         public async Task<List<BookResponse>> GetBooksAsync()
         {
             var Books = await _repository.GetBooksAsync();
-            var response = new List<BookResponse>();
-
-            foreach (var book in Books)
-            {
-                var author = _authorsRepository.GetAuthorByIdAsync(book.AuthorId);
-                response.Add(new BookResponse(book.Title, book.PublishedYear, author.Result.Name));
-            }
-            return response;
+            return Books.Select(b => new BookResponse(
+                b.Title,
+                b.PublishedYear,
+                b.Author.Name)).ToList();
         }
 
         public async Task<BookResponse> GetBookByTitleAsync(BookByTitleRequest bookByTitleRequest)
@@ -38,7 +32,7 @@ namespace AlexandriaEF.Services
 
             if (book == null) throw new ArgumentNullException("Такой книги нет");
 
-            return new BookResponse(book.Title, book.PublishedYear, _authorsRepository.GetAuthorByIdAsync(book.AuthorId).Result.Name);
+            return new BookResponse(book.Title, book.PublishedYear, book.Author.Name);
         }
 
         public async Task<string> AddBookAsync(AddBookRequest addBookRequest)

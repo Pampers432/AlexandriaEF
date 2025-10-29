@@ -9,12 +9,10 @@ namespace AlexandriaEF.Services
 {
     public class AuthorService : IAuthorService
     {
-        private readonly AlexandriaDbContext _db;
         private readonly IAuthorsRepository _repository;
 
-        public AuthorService(AlexandriaDbContext db, IAuthorsRepository authorsRepository)
+        public AuthorService(IAuthorsRepository authorsRepository)
         {
-            _db = db;
             _repository = authorsRepository;
         }
 
@@ -62,7 +60,7 @@ namespace AlexandriaEF.Services
 
         public async Task<string> DeleteAuthorByIdAsync(Guid id)
         {
-            var author = await _db.Authors.FirstOrDefaultAsync(a => a.Id == id);
+            var author = await _repository.GetAuthorByIdAsync(id);
 
             if (author == null) throw new ArgumentNullException("Такого автора нет");
 

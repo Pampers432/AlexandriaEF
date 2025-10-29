@@ -1,4 +1,5 @@
 ﻿using AlexandriaEF.Contracts;
+using AlexandriaEF.Abstraction;
 using AlexandriaEF.Models;
 using AlexandriaEF.Repositories;
 using AlexandriaEF.Services;
@@ -10,8 +11,8 @@ namespace AlexandriaEF.Controllers
     [Route("[controller]")]
     public class BooksController : ControllerBase
     {
-        private readonly BookService _service;
-        public BooksController(BookService bookService)
+        private readonly IBookService _service;
+        public BooksController(IBookService bookService)
         {
             _service = bookService;
         }

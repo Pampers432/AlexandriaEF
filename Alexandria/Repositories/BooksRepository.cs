@@ -1,10 +1,11 @@
-﻿using AlexandriaEF.Data;
+﻿using AlexandriaEF.Abstraction;
+using AlexandriaEF.Data;
 using AlexandriaEF.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlexandriaEF.Repositories
 {
-    public class BooksRepository
+    public class BooksRepository : IBooksRepository
     {
         private readonly AlexandriaDbContext _db;
 

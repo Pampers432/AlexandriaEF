@@ -1,4 +1,5 @@
-﻿using AlexandriaEF.Contracts;
+﻿using AlexandriaEF.Abstraction;
+using AlexandriaEF.Contracts;
 using AlexandriaEF.Data;
 using AlexandriaEF.Models;
 using AlexandriaEF.Repositories;
@@ -6,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AlexandriaEF.Services
 {
-    public class BookService
+    public class BookService : IBookService
     {
         private readonly AlexandriaDbContext _db;
-        private readonly BooksRepository _repository;
+        private readonly IBooksRepository _repository;
 
-        public BookService(AlexandriaDbContext db, BooksRepository booksRepository)
+        public BookService(AlexandriaDbContext db, IBooksRepository booksRepository)
         {
             _db = db;
             _repository = booksRepository;
@@ -65,7 +66,7 @@ namespace AlexandriaEF.Services
         {
             var book = await _repository.GetBookByTitleAsync(bookByTitleRequest.title);
 
-            if (book == null) throw new ArgumentNullException("Такой книги нет");            
+            if (book == null) throw new ArgumentNullException("Такой книги нет");
 
             return await _repository.DeleteBookByIdAsync(book); ;
         }

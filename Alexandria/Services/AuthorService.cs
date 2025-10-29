@@ -1,4 +1,5 @@
-﻿using AlexandriaEF.Contracts;
+﻿using AlexandriaEF.Abstraction;
+using AlexandriaEF.Contracts;
 using AlexandriaEF.Data;
 using AlexandriaEF.Models;
 using AlexandriaEF.Repositories;
@@ -6,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AlexandriaEF.Services
 {
-    public class AuthorService
+    public class AuthorService : IAuthorService
     {
         private readonly AlexandriaDbContext _db;
-        private readonly AuthorsRepository _repository;
+        private readonly IAuthorsRepository _repository;
 
-        public AuthorService(AlexandriaDbContext db, AuthorsRepository authorsRepository)
+        public AuthorService(AlexandriaDbContext db, IAuthorsRepository authorsRepository)
         {
             _db = db;
             _repository = authorsRepository;
@@ -42,7 +43,7 @@ namespace AlexandriaEF.Services
 
         public async Task<string> AddAuthorAsync(string name, DateTime dateOfBirth)
         {
-            var newAuthor = Author.CreateAuthor(name, dateOfBirth);            
+            var newAuthor = Author.CreateAuthor(name, dateOfBirth);
 
             return await _repository.AddAuthorAsync(newAuthor); ;
         }

@@ -1,4 +1,5 @@
-﻿using AlexandriaEF.Contracts;
+﻿using AlexandriaEF.Abstraction;
+using AlexandriaEF.Contracts;
 using AlexandriaEF.Models;
 using AlexandriaEF.Repositories;
 using AlexandriaEF.Services;
@@ -10,11 +11,10 @@ namespace AlexandriaEF.Controllers
     [Route("[controller]")]
     public class AuthorsController : ControllerBase
     {
-        private readonly AuthorsRepository _repository;
-        private readonly AuthorService _service;
-        public AuthorsController(AuthorsRepository authorsRepository, AuthorService service)
+        private readonly IAuthorService _service;
+
+        public AuthorsController(IAuthorService service)
         {
-            _repository = authorsRepository;
             _service = service;
         }
 

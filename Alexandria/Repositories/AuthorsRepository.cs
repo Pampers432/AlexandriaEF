@@ -1,10 +1,11 @@
-﻿using AlexandriaEF.Data;
+﻿using AlexandriaEF.Abstraction;
+using AlexandriaEF.Data;
 using AlexandriaEF.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlexandriaEF.Repositories
 {
-    public class AuthorsRepository
+    public class AuthorsRepository : IAuthorsRepository
     {
         private readonly AlexandriaDbContext _db;
 
@@ -14,7 +15,7 @@ namespace AlexandriaEF.Repositories
         }
 
         public async Task<List<Author>> GetAuthors()
-        {            
+        {
             return await _db.Authors.Include(a => a.Books).ToListAsync();
         }
 

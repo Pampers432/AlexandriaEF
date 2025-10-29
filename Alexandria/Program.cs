@@ -1,3 +1,4 @@
+using AlexandriaEF.Abstraction;
 using AlexandriaEF.Data;
 using AlexandriaEF.Repositories;
 using AlexandriaEF.Services;
@@ -12,10 +13,10 @@ namespace AlexandriaEF
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
-            builder.Services.AddScoped<AuthorsRepository>();
-            builder.Services.AddScoped<BooksRepository>();
-            builder.Services.AddScoped<BookService>();
-            builder.Services.AddScoped<AuthorService>();
+            builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
+            builder.Services.AddScoped<IBooksRepository, BooksRepository>();
+            builder.Services.AddScoped<IBookService, BookService>();
+            builder.Services.AddScoped<IAuthorService, AuthorService>();
             builder.Services.AddDbContext<AlexandriaDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
